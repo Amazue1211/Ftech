@@ -31,7 +31,7 @@ const Budget = () => {
   return (
     <div className="flex">
         <Sidebar />
-    <div className="min-h-screen p-6 bg-gradient-to-br from-indigo-50 to-white dark:from-gray-900 dark:to-gray-800">
+    <div className="min-h-screen p-6 w-[1000vw] bg-gradient-to-br from-indigo-50 to-white dark:from-gray-900 dark:to-gray-800">
 
       {/* Header */}
       <h1 className="text-3xl font-bold mb-6 text-gray-800 dark:text-white">
