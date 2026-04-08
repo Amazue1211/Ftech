@@ -18,7 +18,7 @@ const Sidebar = () => {
   return (
     <motion.div
       animate={{ width: collapsed ? 80 : 240 }}
-      className="h-screen bg-white dark:bg-gray-900 shadow-lg flex flex-col justify-between transition-all duration-300"
+      className=" bg-white dark:bg-gray-900 shadow-lg flex flex-col justify-between transition-all duration-300"
     >
       {/* Top Section */}
       <div>
