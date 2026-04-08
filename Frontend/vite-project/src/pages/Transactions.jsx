@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
-
+import Sidebar from "../component/SideBar";
 const Transactions = () => {
   const [filter, setFilter] = useState("all");
   const [search, setSearch] = useState("");
@@ -20,7 +20,9 @@ const Transactions = () => {
   });
 
   return (
-    <div className="min-h-screen p-6 bg-gradient-to-br from-indigo-50 to-white dark:from-gray-900 dark:to-gray-800 transition-colors">
+    <div className="flex">
+        <Sidebar />
+    <div className="min-h-screen  w-[1000vw] p-6 bg-gradient-to-br from-indigo-50 to-white dark:from-gray-900 dark:to-gray-800 transition-colors">
 
       {/* Header */}
       <div className="flex flex-col md:flex-row justify-between items-center mb-6 gap-4">
@@ -101,6 +103,7 @@ const Transactions = () => {
           ))
         )}
       </div>
+    </div>
     </div>
   );
 };
