@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import Sidebar from '../component/SideBar';
 
+
 // ========== Animated Number Counter ==========
 const AnimatedNumber = ({ value, prefix = '', suffix = '', decimals = 2 }) => {
   const [displayValue, setDisplayValue] = useState(0);
@@ -158,7 +159,7 @@ const Dashboard = () => {
 <div className="flex">
       <Sidebar />
     <div className=" min-h-screen w-[1000vw] bg-gradient-to-br from-indigo-50 to-white p-6">
-      <h1 className="text-3xl font-bold mb-6">FinFlow Dashboard</h1><br />
+     <div className='flex align-center text-center gap-6'> <h1 className="text-3xl font-bold mb-6">FinFlow Dashboard</h1><br /> <h1 className='mt-2 font-bold'>Account Number: 22010306022 </h1></div> 
 
       <div className="grid md:grid-cols-4 gap-4 mb-6">
         {stats.map((s, i) => (

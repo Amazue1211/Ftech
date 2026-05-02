@@ -11,6 +11,8 @@ import Savings from "./pages/Savings";
 import Profile from "./pages/Profile";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+import LandingPage from "./pages/LandingPage";
+import NotfoundPage from "./pages/NotfoundPage";
 
 function App() {
   return (
@@ -27,8 +29,10 @@ function App() {
         <Route path="/analytics" element={<Analytics />} />
         <Route path="/budget" element={<Budget />} />
         <Route path="/savings" element={<Savings />} />
+        <Route path="/landingpage" element={<LandingPage />} />
         {/* <Route path="/ai" element={<AI />} /> */}
         <Route path="/profile" element={<Profile />} />
+             <Route path="*" element={<NotfoundPage />} />
       </Routes>
     </Router>
   );
