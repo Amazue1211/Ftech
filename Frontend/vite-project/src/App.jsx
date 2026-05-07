@@ -23,7 +23,7 @@ function App() {
         <Route path="/register" element={<Register />} />
 
         {/* Main App Routes */}
-        <Route path="/" element={<Dashboard />} />
+        <Route path="/" element={<LandingPage />} />
         <Route path="/transactions" element={<Transactions />} />
         <Route path="/add-transaction" element={<AddTransaction />} />
         <Route path="/analytics" element={<Analytics />} />
