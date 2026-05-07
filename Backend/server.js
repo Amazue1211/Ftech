@@ -20,6 +20,7 @@ connectDb();
 app.use(express.json());
 app.use(cookieParser());
 
+
 // 🌍 CORS setup (important for frontend)
 app.use(
   cors({
@@ -33,9 +34,13 @@ app.get("/", (req, res) => {
   res.send("API is running 🚀");
 });
 
+
+
 // 🔐 AUTH ROUTES
 app.use("/api/auth", authRouter);
 app.use("/api/auth/user", userRouter);
+
+
 
 // ❌ 404 handler
 app.use((req, res) => {
