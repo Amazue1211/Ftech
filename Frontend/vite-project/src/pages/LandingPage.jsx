@@ -1,5 +1,6 @@
 import { useState } from "react";
-
+import { Link } from "react-router-dom";
+import Loginpage from "./Loginpage";
 // Interactive Savings Calculator (internal component)
 const SavingsCalculator = () => {
   const [principal, setPrincipal] = useState(5000);
@@ -30,7 +31,9 @@ const SavingsCalculator = () => {
         </div>
         <div>
           <h3 className="text-xl font-bold text-gray-800">Savings Simulator</h3>
-          <p className="text-gray-500 text-sm">Project your growth with AI forecasts</p>
+          <p className="text-gray-500 text-sm">
+            Project your growth with AI forecasts
+          </p>
         </div>
       </div>
 
@@ -38,7 +41,9 @@ const SavingsCalculator = () => {
         <div>
           <label className="flex justify-between text-sm font-medium text-gray-700">
             <span>Initial amount ($)</span>
-            <span className="text-indigo-600 font-semibold">${principal.toLocaleString()}</span>
+            <span className="text-indigo-600 font-semibold">
+              ${principal.toLocaleString()}
+            </span>
           </label>
           <input
             type="range"
@@ -105,12 +110,20 @@ const SavingsCalculator = () => {
 
         <div className="mt-6 pt-4 border-t border-dashed border-gray-200 grid grid-cols-2 gap-4">
           <div className="bg-indigo-50/60 rounded-xl p-3 text-center">
-            <p className="text-xs text-gray-500 uppercase tracking-wide">Total invested</p>
-            <p className="text-xl font-bold text-gray-800">${Number(totalInvested).toLocaleString()}</p>
+            <p className="text-xs text-gray-500 uppercase tracking-wide">
+              Total invested
+            </p>
+            <p className="text-xl font-bold text-gray-800">
+              ${Number(totalInvested).toLocaleString()}
+            </p>
           </div>
           <div className="bg-green-50/60 rounded-xl p-3 text-center">
-            <p className="text-xs text-gray-500 uppercase tracking-wide">Est. future value</p>
-            <p className="text-xl font-bold text-green-700">${Number(futureValue).toLocaleString()}</p>
+            <p className="text-xs text-gray-500 uppercase tracking-wide">
+              Est. future value
+            </p>
+            <p className="text-xl font-bold text-green-700">
+              ${Number(futureValue).toLocaleString()}
+            </p>
           </div>
         </div>
         <div className="bg-gray-50 rounded-xl p-3 text-center">
@@ -148,29 +161,34 @@ export default function FintechLanding() {
   const [waitlistStatus, setWaitlistStatus] = useState(null); // 'success' | 'error' | null
 
   const handleWaitlistSubmit = async (e) => {
-  e.preventDefault();
-  // ... your existing validation logic ...
-  setWaitlistStatus('loading');
+    e.preventDefault();
 
-  try {
-    const response = await fetch('/api/waitlist', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email: waitlistEmail }),
-    });
+    if (!waitlistEmail) return;
 
-    if (response.ok) {
-      setWaitlistStatus('success');
-      setWaitlistEmail("");
-    } else {
-      throw new Error('Failed to subscribe');
+    setWaitlistStatus("loading");
+
+    try {
+      const response = await fetch("http://localhost:5000/api/waitlist", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: waitlistEmail }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setWaitlistStatus("success");
+        setWaitlistEmail("");
+      } else {
+        throw new Error(data.message || "Failed to subscribe");
+      }
+    } catch (error) {
+      console.error("Waitlist Error:", error);
+      setWaitlistStatus("error");
     }
-  } catch (error) {
-    console.error('Waitlist Error:', error);
-    setWaitlistStatus('error');
-  }
-  setTimeout(() => setWaitlistStatus(null), 3000);
-};
+
+    setTimeout(() => setWaitlistStatus(null), 3000);
+  };
 
   return (
     <div className="overflow-x-hidden font-sans antialiased text-gray-800 bg-[#fbfdfe]">
@@ -189,12 +207,20 @@ export default function FintechLanding() {
 
             {/* Desktop menu */}
             <div className="hidden md:flex items-center space-x-8 text-gray-600 font-medium">
-              <a href="#" className="hover:text-indigo-600 transition">Product</a>
-              <a href="#" className="hover:text-indigo-600 transition">Pricing</a>
-              <a href="#" className="hover:text-indigo-600 transition">Company</a>
-              <a href="#" className="hover:text-indigo-600 transition">Resources</a>
-              <button className="bg-indigo-600 text-white px-5 py-2.5 rounded-full text-sm font-semibold shadow-sm hover:bg-indigo-700 transition-all">
-                Get early access
+              <a href="#" className="hover:text-indigo-600 transition">
+                Product
+              </a>
+              <a href="#" className="hover:text-indigo-600 transition">
+                Pricing
+              </a>
+              <a href="#" className="hover:text-indigo-600 transition">
+                Company
+              </a>
+              <a href="#" className="hover:text-indigo-600 transition">
+                Resources
+              </a>
+              <button className="bg-indigo-600 cursor-pointer text-white px-5 py-2.5 rounded-full text-sm font-semibold shadow-sm hover:bg-indigo-700 transition-all">
+                <Link to="/loginpage">Login</Link>
               </button>
             </div>
 
@@ -208,13 +234,21 @@ export default function FintechLanding() {
           </div>
           {mobileMenuOpen && (
             <div className="md:hidden pb-5 flex flex-col space-y-4 text-gray-700 font-medium">
-              <a href="#" className="hover:text-indigo-600 py-1">Product</a>
-              <a href="#" className="hover:text-indigo-600 py-1">Pricing</a>
-              <a href="#" className="hover:text-indigo-600 py-1">Company</a>
-              <a href="#" className="hover:text-indigo-600 py-1">Resources</a>
-              <button className="bg-indigo-600 text-white px-4 py-2 rounded-full w-fit text-sm">
-                Join waitlist
-              </button>
+              <a href="#" className="hover:text-indigo-600 py-1">
+                Product
+              </a>
+              <a href="#" className="hover:text-indigo-600 py-1">
+                Pricing
+              </a>
+              <a href="#" className="hover:text-indigo-600 py-1">
+                Company
+              </a>
+              <a href="#" className="hover:text-indigo-600 py-1">
+                Resources
+              </a>
+              {/* <button className="bg-indigo-600 text-white px-4 py-2 rounded-full w-fit text-sm">
+
+              </button> */}
             </div>
           )}
         </div>
@@ -228,14 +262,16 @@ export default function FintechLanding() {
             🤖 <span>AI-powered finance · 2025 edition</span>
           </div>
           <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight text-gray-900 leading-tight">
-            Bank smarter,<br />{" "}
+            Bank smarter,
+            <br />{" "}
             <span className="bg-gradient-to-r from-indigo-600 to-blue-500 bg-clip-text text-transparent">
               invest with intelligence
             </span>
           </h1>
           <p className="text-xl text-gray-500 max-w-2xl mx-auto mt-6">
-            Seamless payments, AI-driven insights, and wealth automation — all in one sleek
-            fintech ecosystem. Zero hidden fees, real-time analytics.
+            Seamless payments, AI-driven insights, and wealth automation — all
+            in one sleek fintech ecosystem. Zero hidden fees, real-time
+            analytics.
           </p>
           <div className="flex flex-wrap justify-center gap-4 mt-10">
             <button className="bg-gray-900 text-white px-8 py-4 rounded-xl font-semibold shadow-lg hover:bg-gray-800 transition flex items-center gap-2">
@@ -276,7 +312,8 @@ export default function FintechLanding() {
             Everything you need to master your money
           </h2>
           <p className="text-gray-500 mt-4 text-lg">
-            Intelligent automation, real-time dashboards, and institutional-grade tools.
+            Intelligent automation, real-time dashboards, and
+            institutional-grade tools.
           </p>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -320,20 +357,26 @@ export default function FintechLanding() {
             <div className="inline-block bg-indigo-100 text-indigo-700 rounded-full px-3 py-1 text-xs font-semibold tracking-wide mb-4">
               📊 interactive tool
             </div>
-            <h2 className="text-3xl font-bold text-gray-900">Visualize your financial growth</h2>
+            <h2 className="text-3xl font-bold text-gray-900">
+              Visualize your financial growth
+            </h2>
             <p className="text-gray-600 mt-4 leading-relaxed">
-              Adjust initial deposit, monthly savings, and expected returns. See exactly how
-              compounding works — plus AI-enhanced projections based on market trends.
+              Adjust initial deposit, monthly savings, and expected returns. See
+              exactly how compounding works — plus AI-enhanced projections based
+              on market trends.
             </p>
             <ul className="mt-6 space-y-2">
               <li className="flex items-center gap-2">
-                <span className="text-indigo-500 text-sm">✔️</span> Real-time compound interest simulation
+                <span className="text-indigo-500 text-sm">✔️</span> Real-time
+                compound interest simulation
               </li>
               <li className="flex items-center gap-2">
-                <span className="text-indigo-500 text-sm">✔️</span> Compare with historical S&P performance
+                <span className="text-indigo-500 text-sm">✔️</span> Compare with
+                historical S&P performance
               </li>
               <li className="flex items-center gap-2">
-                <span className="text-indigo-500 text-sm">✔️</span> Export insights to PDF / share with advisor
+                <span className="text-indigo-500 text-sm">✔️</span> Export
+                insights to PDF / share with advisor
               </li>
             </ul>
           </div>
@@ -348,9 +391,9 @@ export default function FintechLanding() {
         <div className="bg-gradient-to-r from-indigo-50 to-white rounded-3xl p-8 md:p-12 shadow-md border border-indigo-100/40">
           <div className="text-indigo-300 text-4xl opacity-60 mb-4">“</div>
           <p className="text-xl md:text-2xl text-gray-700 leading-relaxed font-medium">
-            “FinLumen completely changed how I handle my finances. The AI coach helped me cut
-            unnecessary spending and I've already saved 23% more this year. It's like a financial
-            superpower.”
+            “FinFlow completely changed how I handle my finances. The AI coach
+            helped me cut unnecessary spending and I've already saved 23% more
+            this year. It's like a financial superpower.”
           </p>
           <div className="flex items-center gap-4 mt-8">
             <div className="w-12 h-12 bg-indigo-200 rounded-full flex items-center justify-center text-indigo-700 font-bold text-lg">
@@ -358,7 +401,9 @@ export default function FintechLanding() {
             </div>
             <div>
               <p className="font-bold text-gray-800">Jessica Delgado</p>
-              <p className="text-sm text-gray-500">Verified user · early adopter</p>
+              <p className="text-sm text-gray-500">
+                Verified user · early adopter
+              </p>
             </div>
           </div>
         </div>
@@ -376,10 +421,14 @@ export default function FintechLanding() {
                 Join the future of smart finance
               </h2>
               <p className="text-gray-600 mt-4 text-lg">
-                Be the first to experience AI-driven insights, zero-fee investing, and seamless
-                payments. Get priority access + exclusive launch rewards.
+                Be the first to experience AI-driven insights, zero-fee
+                investing, and seamless payments. Get priority access +
+                exclusive launch rewards.
               </p>
-              <form onSubmit={handleWaitlistSubmit} className="mt-8 flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
+              <form
+                onSubmit={handleWaitlistSubmit}
+                className="mt-8 flex flex-col sm:flex-row gap-3 max-w-md mx-auto"
+              >
                 <input
                   type="email"
                   value={waitlistEmail}
@@ -420,7 +469,7 @@ export default function FintechLanding() {
               <div className="bg-indigo-700 w-7 h-7 rounded-lg flex items-center justify-center text-white text-xs">
                 ⚡
               </div>
-              <span className="font-bold text-xl text-gray-800">FinLumen</span>
+              <span className="font-bold text-xl text-gray-800">Finflow</span>
             </div>
             <p className="text-gray-500 text-sm mt-3">
               Democratizing intelligent finance for the next generation.
@@ -460,7 +509,8 @@ export default function FintechLanding() {
           </div>
         </div>
         <div className="border-t border-gray-100 mt-12 pt-6 text-center text-sm text-gray-400">
-          © 2025 FinLumen Inc. All rights reserved. The future of finance is open.
+          © 2025 FinLumen Inc. All rights reserved. The future of finance is
+          open.
         </div>
       </footer>
     </div>

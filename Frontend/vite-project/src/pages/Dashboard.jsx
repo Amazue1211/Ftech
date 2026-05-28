@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
-import Sidebar from '../component/SideBar';
-
+import React, { useState, useEffect } from "react";
+import { motion } from "framer-motion";
+import Sidebar from "../component/SideBar";
+import { useContext } from "react";
+import { AppContent } from "../context/AppContext";
 
 // ========== Animated Number Counter ==========
-const AnimatedNumber = ({ value, prefix = '', suffix = '', decimals = 2 }) => {
+const AnimatedNumber = ({ value, prefix = "", suffix = "", decimals = 2 }) => {
   const [displayValue, setDisplayValue] = useState(0);
 
   useEffect(() => {
@@ -33,27 +34,41 @@ const AnimatedNumber = ({ value, prefix = '', suffix = '', decimals = 2 }) => {
 
   const formatted = displayValue
     .toFixed(decimals)
-    .replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 
-  return <span>{prefix}{formatted}{suffix}</span>;
+  return (
+    <span>
+      {prefix}
+      {formatted}
+      {suffix}
+    </span>
+  );
 };
 
 // ========== Stat Card ==========
-const StatCard = ({ title, amount, change, changeType, icon, prefix = '$', delay = 0 }) => {
-  const isPositive = changeType === 'positive';
+const StatCard = ({
+  title,
+  amount,
+  change,
+  changeType,
+  icon,
+  prefix = "$",
+  delay = 0,
+}) => {
+  const isPositive = changeType === "positive";
   const changeColor =
-    title === 'Expenses' && changeType === 'positive'
-      ? 'text-green-500'
+    title === "Expenses" && changeType === "positive"
+      ? "text-green-500"
       : isPositive
-      ? 'text-green-500'
-      : 'text-red-500';
+        ? "text-green-500"
+        : "text-red-500";
 
   const changeArrow =
-    title === 'Expenses' && changeType === 'positive'
-      ? '↓'
+    title === "Expenses" && changeType === "positive"
+      ? "↓"
       : isPositive
-      ? '↑'
-      : '↓';
+        ? "↑"
+        : "↓";
 
   return (
     <motion.div
@@ -75,7 +90,9 @@ const StatCard = ({ title, amount, change, changeType, icon, prefix = '$', delay
       </div>
 
       <div className={`flex gap-1 text-sm ${changeColor}`}>
-        <span>{changeArrow} {Math.abs(change)}%</span>
+        <span>
+          {changeArrow} {Math.abs(change)}%
+        </span>
         <span className="text-gray-400 text-xs">from last month</span>
       </div>
     </motion.div>
@@ -85,12 +102,12 @@ const StatCard = ({ title, amount, change, changeType, icon, prefix = '$', delay
 // ========== Spending Trends ==========
 const SpendingTrends = () => {
   const data = [
-    { month: 'Jan', income: 5800, expense: 4200 },
-    { month: 'Feb', income: 6200, expense: 4500 },
-    { month: 'Mar', income: 6500, expense: 4700 },
-    { month: 'Apr', income: 6700, expense: 4523 },
-    { month: 'May', income: 6900, expense: 4800 },
-    { month: 'Jun', income: 7100, expense: 5000 },
+    { month: "Jan", income: 5800, expense: 4200 },
+    { month: "Feb", income: 6200, expense: 4500 },
+    { month: "Mar", income: 6500, expense: 4700 },
+    { month: "Apr", income: 6700, expense: 4523 },
+    { month: "May", income: 6900, expense: 4800 },
+    { month: "Jun", income: 7100, expense: 5000 },
   ];
 
   const max = 8000;
@@ -125,9 +142,9 @@ const SpendingTrends = () => {
 // ========== Recent Transactions ==========
 const RecentTransactions = () => {
   const txs = [
-    { name: 'Salary', amount: '+$6,500', type: 'income' },
-    { name: 'Netflix', amount: '-$15.99', type: 'expense' },
-    { name: 'Groceries', amount: '-$120', type: 'expense' },
+    { name: "Salary", amount: "+$6,500", type: "income" },
+    { name: "Netflix", amount: "-$15.99", type: "expense" },
+    { name: "Groceries", amount: "-$120", type: "expense" },
   ];
 
   return (
@@ -137,7 +154,9 @@ const RecentTransactions = () => {
       {txs.map((tx, i) => (
         <div key={i} className="flex justify-between mb-3">
           <span>{tx.name}</span>
-          <span className={tx.type === 'income' ? 'text-green-500' : 'text-red-500'}>
+          <span
+            className={tx.type === "income" ? "text-green-500" : "text-red-500"}
+          >
             {tx.amount}
           </span>
         </div>
@@ -149,29 +168,60 @@ const RecentTransactions = () => {
 // ========== Main Dashboard ==========
 const Dashboard = () => {
   const stats = [
-    { title: 'Balance', amount: '16245.80', change: 12.5, changeType: 'positive', icon: '💰' },
-    { title: 'Income', amount: '6500.00', change: 8.2, changeType: 'positive', icon: '📈' },
-    { title: 'Expenses', amount: '4523.20', change: 3.1, changeType: 'positive', icon: '📉' },
-    { title: 'Savings', amount: '8940.00', change: 15.8, changeType: 'positive', icon: '🏦' },
+    {
+      title: "Balance",
+      amount: "16245.80",
+      change: 12.5,
+      changeType: "positive",
+      icon: "💰",
+    },
+    {
+      title: "Income",
+      amount: "6500.00",
+      change: 8.2,
+      changeType: "positive",
+      icon: "📈",
+    },
+    {
+      title: "Expenses",
+      amount: "4523.20",
+      change: 3.1,
+      changeType: "positive",
+      icon: "📉",
+    },
+    {
+      title: "Savings",
+      amount: "8940.00",
+      change: 15.8,
+      changeType: "positive",
+      icon: "🏦",
+    },
   ];
-
+  const { userData } = useContext(AppContent);
   return (
-<div className="flex">
+    <div className="flex">
       <Sidebar />
-    <div className=" min-h-screen w-[1000vw] bg-gradient-to-br from-indigo-50 to-white p-6">
-     <div className='flex align-center text-center gap-6'> <h1 className="text-3xl font-bold mb-6">FinFlow Dashboard</h1><br /> <h1 className='mt-2 font-bold'>Account Number: 22010306022 </h1></div> 
+      <div className=" min-h-screen w-[1000vw] bg-gradient-to-br from-indigo-50 to-white p-6">
+        <div className="flex align-center text-center gap-6">
+          {" "}
+          <h1 className="text-3xl font-bold mb-6">FinFlow Dashboard</h1>
+          <br />{" "}
+          <h1 className="mt-2 font-bold">
+            Hey {userData ? userData.id : "User"}!
+          </h1>
+        </div>
 
-      <div className="grid md:grid-cols-4 gap-4 mb-6">
-        {stats.map((s, i) => (
-          <StatCard key={i} {...s} delay={i * 0.1} />
-        ))}
-      </div>
+        <div className="grid md:grid-cols-4 gap-4 mb-6">
+          {stats.map((s, i) => (
+            <StatCard key={i} {...s} delay={i * 0.1} />
+          ))}
+        </div>
 
-      <div className="grid md:grid-cols-2 gap-4">
-        <SpendingTrends />
-        <RecentTransactions />
+        <div className="grid md:grid-cols-2 gap-4">
+          <SpendingTrends />
+          <RecentTransactions />
+        </div>
       </div>
-    </div>
     </div>
   );
 };
