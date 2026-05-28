@@ -207,7 +207,7 @@ const Dashboard = () => {
           <h1 className="text-3xl font-bold mb-6">FinFlow Dashboard</h1>
           <br />{" "}
           <h1 className="mt-2 font-bold">
-            Hey {userData ? userData.id : "User"}!
+            Hey {userData ? userData.name : ""}!
           </h1>
         </div>
 
