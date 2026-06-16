@@ -6,7 +6,6 @@ import connectDb from "./config/mongodb.js";
 import authRouter from "./routes/authRoute.js";
 import userRouter from "./routes/userRoute.js";
 import dns from "dns";
-import waitlistRoutes from "./routes/waitlistRoutes.js";
 
 dns.setServers(["1.1.1.1", "8.8.8.8"]);
 dns.setDefaultResultOrder("ipv4first");
@@ -40,7 +39,7 @@ app.get("/", (req, res) => {
 // app.use("/api", waitlistRoutes);
 app.use("/api/auth", authRouter);
 app.use("/api/user", userRouter);
-app.use("/api", waitlistRoutes);
+
 // ❌ 404 handler
 app.use((req, res) => {
   res.status(404).json({

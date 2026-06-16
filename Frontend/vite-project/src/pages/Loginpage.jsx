@@ -27,7 +27,9 @@ function Loginpage() {
 
         if (data.success) {
           setIsLoggedin(true);
-          toast.message("login successful");
+          toast.success("account created successfully", {
+            autoClose: 1000,
+          });
           getUserData();
           navigate("/Dashboard");
         } else {
