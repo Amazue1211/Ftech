@@ -1,5 +1,5 @@
 import express from "express";
-import Waitlist from "../models/Waitlist.js";
+import Waitlist from "../models/waitlist.js";
 
 const router = express.Router();
 
